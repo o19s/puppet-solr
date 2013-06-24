@@ -13,7 +13,7 @@
 #
 # $number_of_cloud_shards:: specify only for SolrCloud
 #
-# $zookeeper_hosts:: An array of zookeeper hosts for SolrCloud. 
+# $zookeeper_hosts:: An comma seperated list of zookeeper hosts for SolrCloud.
 #                   Specify only for SolrCloud
 #
 # == Requires:
