@@ -40,6 +40,14 @@
 # JAVA
 #   Command to invoke Java. If not set, java (from the PATH) will be used.
 #
+# ZOOKEEPER_HOSTS
+#   Command seperated list of Zookeeper hosts for solrCloud.  A non-standard
+#   root can be specificed at the end of a host name
+#   ex localhost:2182,example.com:2181,weirdroot.com:2181/other_root
+#
+# NUM_SHARDS
+#   Specify the number of shards you'd like to user when working with SolrCloud
+#
 # JAVA_OPTIONS
 #   Extra options to pass to the JVM
 #
@@ -332,9 +340,26 @@ then
 fi
 
 #####################################################
+# See if Zookeeper is being used for SolrCloud
+#####################################################
+
+if [ -z "$ZOOKEEPER_HOSTS"]
+then
+  JAVA_OPTIONS+=("-DzkHost=$ZOOKEEPER_HOSTS")
+fi
+
+#####################################################
+# See if NUM_SHARDS is defined
+#####################################################
+if [ -z "$NUM_SHARDS" ]
+then
+  JAVA_OPTIONS+=("-DnumShards=$SOLR_PORT")
+fi
+
+#####################################################
 # See if SOLR_PORT is defined
 #####################################################
-if [ "$SOLR_PORT" ] 
+if [ -z "$SOLR_PORT" ] 
 then
   JAVA_OPTIONS+=("-Djetty.port=$SOLR_PORT")
 fi
@@ -342,7 +367,7 @@ fi
 #####################################################
 # See if SOLR_LOGS is defined
 #####################################################
-if [ "$SOLR_LOGS" ]
+if [ -z "$SOLR_LOGS" ]
 then
   JAVA_OPTIONS+=("-Djetty.logs=$SOLR_LOGS")
 fi

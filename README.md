@@ -20,3 +20,15 @@ package { 'default-jdk': }
 
 include solr
 ```
+
+Working with Solr Cloud
+-----------------------
+
+```pp
+package { 'default-jdk' }
+
+class {'solr':
+  number_of_cloud_shards => 2,
+  zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
+}
+```

@@ -1,6 +1,37 @@
+# = Class: solr
+#
+# This class installs/configures/manages Apache Solr. 
+#
+# == Parameters:
+#
+# $solr_version:: the version of solr to install
+#
+# $solr_home:: where the solr files will be installed
+#
+# $exec_path:: the path to use when executing commands on the
+#             local system
+#
+# $number_of_cloud_shards:: specify only for SolrCloud
+#
+# $zookeeper_hosts:: An array of zookeeper hosts for SolrCloud. 
+#                   Specify only for SolrCloud
+#
+# == Requires:
+#
+# Nothing.
+#
+# == Sample Usage:
+#
+#   class {'solr':
+#     number_of_cloud_shards => 2,
+#     zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
+#   }
+#
 class solr (
   $solr_version = '4.3.0',
   $solr_home = '/opt',
+  $number_of_cloud_shards = nil,
+  $zookeeper_hosts = nil,
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
 ) {
   # using the 'creates' option here against the finished product so we only download this once
@@ -72,12 +103,7 @@ class solr (
   } ->
 
   file { "/etc/default/solr-jetty":
-    content => "JAVA_HOME=/usr/java/default # Path to Java
-    NO_START=0 # Start on boot
-    JETTY_HOST=0.0.0.0 # Listen to all hosts
-    JETTY_USER=solr # Run as this user
-    JETTY_HOME=/opt/solr/example
-    SOLR_HOME=/etc/solr",
+    content => template("solr/solr-jetty.erb"),
     ensure => present,
     owner  => solr,
   } ->
