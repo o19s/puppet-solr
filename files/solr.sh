@@ -343,7 +343,7 @@ fi
 # See if Zookeeper is being used for SolrCloud
 #####################################################
 
-if [ -z "$ZOOKEEPER_HOSTS"]
+if [ "$ZOOKEEPER_HOSTS" ]
 then
   JAVA_OPTIONS+=("-DzkHost=$ZOOKEEPER_HOSTS")
 fi
@@ -351,7 +351,7 @@ fi
 #####################################################
 # See if NUM_SHARDS is defined
 #####################################################
-if [ -z "$NUM_SHARDS" ]
+if [ "$NUM_SHARDS" ]
 then
   JAVA_OPTIONS+=("-DnumShards=$SOLR_PORT")
 fi
@@ -359,7 +359,7 @@ fi
 #####################################################
 # See if SOLR_PORT is defined
 #####################################################
-if [ -z "$SOLR_PORT" ] 
+if [ "$SOLR_PORT" ] 
 then
   JAVA_OPTIONS+=("-Djetty.port=$SOLR_PORT")
 fi
@@ -367,7 +367,7 @@ fi
 #####################################################
 # See if SOLR_LOGS is defined
 #####################################################
-if [ -z "$SOLR_LOGS" ]
+if [ "$SOLR_LOGS" ]
 then
   JAVA_OPTIONS+=("-Djetty.logs=$SOLR_LOGS")
 fi
