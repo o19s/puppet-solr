@@ -44,7 +44,7 @@ class solr (
   user { "solr": 
     ensure => present
   } ->
- { "Ref" : "AWS::StackName" }
+
   exec { "untar solr":
     command => "tar -xf /tmp/solr-${solr_version}.tgz -C ${solr_home}",
     path    => $exec_path,
