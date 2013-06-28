@@ -96,10 +96,10 @@ class solr (
 
   } -> 
 
-  file { "/etc/init.d/solr.sh":
+  file { "/etc/init.d/solr":
     ensure => "present",
     mode   => '0755',
-    source => "puppet:///modules/solr/solr.sh"
+    source => "puppet:///modules/solr/solr"
   } ->
 
   file { "/etc/default/solr-jetty":
