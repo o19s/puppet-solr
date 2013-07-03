@@ -109,8 +109,7 @@ class solr (
   } ->
 
   service {"solr":
-    enable => true,
-    ensure => running
+    enable => false
   }
 
 }
