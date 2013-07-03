@@ -89,7 +89,7 @@ class solr (
   } ->
 
   exec { "copy core files to collection1":
-    command => "cp -rf /opt/solr/example/solr/collection1/* /etc/solr/collection1/conf/",
+    command => "cp -rf /opt/solr/example/solr/collection1/* /etc/solr/collection1/",
     path    => $exec_path,
     user    => solr,
     creates => "/etc/solr/collection1/conf/schema.xml"
