@@ -59,7 +59,7 @@ class solr::tomcat6(
   file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost/solr.xml":
     ensure => present,
     owner  => solr,
-    source => "puppet:///solr/solr-context.xml"
+    source => "puppet:///modules/solr/solr-context.xml"
   }
 
 
