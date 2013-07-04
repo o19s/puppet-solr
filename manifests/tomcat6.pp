@@ -15,14 +15,17 @@
 #
 # $java_home:: default is /usr/lib/jvm/default-java
 #
-# $basedir:: used to set CATALINA_HOME. default is $tomcat6_dir + "/tomcat6"
+# $basedir:: used to set CATALINA_HOME. default is "/opt/tomcat6"
+#
+# $tomcat6_user:: default is solr.
 #
 class solr::tomcat6(
   $tomcat6_home = '/opt',
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin',
   $tomcat6_version = "6.0.37",
   $java_home = '/usr/lib/jvm/default-java',
-  $basedir = "${tomcat6_home}/tomcat6"
+  $basedir = "/opt/tomcat6",
+  $tomcat6_user = "solr"
 ){
 
  class { "solr":}
