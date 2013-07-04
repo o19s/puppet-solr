@@ -50,6 +50,12 @@ class solr::tomcat6(
     owner  => solr
   } ->
 
+  file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost/solr.xml":
+    ensure => present,
+    owner  => solr,
+    source => "puppet:///solr/solr-context.xml"
+  } ->
+
   file { "/${tomcat6_home}/apache-tomcat-${tomcat6_version}":
     owner => solr,
     recurse => true,
