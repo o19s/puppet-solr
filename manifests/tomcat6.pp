@@ -49,9 +49,9 @@ class solr::tomcat6(
 
 
   file { "/etc/init.d/tomcat6-solr":
-    ensure => present,
-    mode   => '0755',
-    source => template("solr/solr-tomcat")
+    ensure  => present,
+    mode    => '0755',
+    content => template("solr/solr-tomcat.erb")
   }
 
   # prep required solr libs for tomcat
