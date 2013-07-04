@@ -22,7 +22,7 @@ class solr::tomcat6(
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin',
   $tomcat6_version = "6.0.37",
   $java_home = '/usr/lib/jvm/default-java',
-  $basedir = $tomcat6_home + '/tomcat6'
+  $basedir = "${tomcat6_home}/tomcat6"
 ){
 
  class { "solr":}
