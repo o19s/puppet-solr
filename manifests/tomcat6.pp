@@ -48,6 +48,12 @@ class solr::tomcat6(
     ensure => link,
     target => "/${tomcat6_home}/apache-tomcat-${tomcat6_version}",
     owner  => solr
+  } ->
+
+  file { "/${tomcat6_home}/apache-tomcat-${tomcat6_version}":
+    owner => solr,
+    recurse => true,
+    ensure => directory
   }
 
 
@@ -74,7 +80,7 @@ class solr::tomcat6(
 
   service { "tomcat6-solr":
     ensure  => running,
-    require => Exec["cp /opt/solr/dist/solr-4.3.0.war /etc/solr/solr.war"]
+    require => [Exec["cp /opt/solr/dist/solr-4.3.0.war /etc/solr/solr.war"], File["/etc/init.d/tomcat6-solr"]]
   }
 
 }
