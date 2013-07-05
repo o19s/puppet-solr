@@ -30,8 +30,8 @@
 class solr (
   $solr_version = '4.3.0',
   $solr_home = '/opt',
-  $number_of_cloud_shards = nil,
-  $zookeeper_hosts = nil,
+  $number_of_cloud_shards = 0,
+  $zookeeper_hosts = "",
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
 ) {
   # using the 'creates' option here against the finished product so we only download this once

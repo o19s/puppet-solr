@@ -1,6 +1,6 @@
 <% if @zookeeper_hosts %>
-  export JAVA_OPTS="$JAVA_OPTS -DzkHost=<%= @zookeper_hosts %>"
-<% end %>
-<% if @zookeeper_hosts %>
-  export JAVA_OPTS="$JAVA_OPTS -DnumShards =<%= @cloud_shards %>"
-<% end %>
+export JAVA_OPTS="$JAVA_OPTS -DzkHost=<%= @zookeeper_hosts %>"
+<% end -%>
+<% if @cloud_shards %>
+export JAVA_OPTS="$JAVA_OPTS -DnumShards=<%= @cloud_shards %>"
+<% end -%>
