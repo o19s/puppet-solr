@@ -62,8 +62,18 @@ class solr::tomcat6(
     ensure => present,
     owner  => solr,
     content => template("solr/tomcat6-setenv.erb")
+  } ->
+
+  file { "${tomcat6_home}/tomcat6/conf/Catalina",
+    ensure => directory,
+    owner  => solr
   }
 
+  file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost",
+    ensure => directory,
+    owner  => solr
+  }
+  
   file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost/solr.xml":
     ensure => present,
     owner  => solr,
