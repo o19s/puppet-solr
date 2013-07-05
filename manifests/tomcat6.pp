@@ -25,6 +25,8 @@ class solr::tomcat6(
   $tomcat6_version = "6.0.37",
   $java_home = '/usr/lib/jvm/default-java',
   $basedir = "/opt/tomcat6",
+  $zookeeper_hosts = nil,
+  $cloud_shards = 1,
   $tomcat6_user = "solr"
 ){
 
@@ -55,6 +57,12 @@ class solr::tomcat6(
     recurse => true,
     ensure => directory
   } -> 
+
+  file { "${tomcat6_home}/tomcat6/bin/setenv.sh":
+    ensure => present,
+    owner  => solr,
+    content => template("solr/tomcat6-setenv.erb")
+  }
 
   file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost/solr.xml":
     ensure => present,
