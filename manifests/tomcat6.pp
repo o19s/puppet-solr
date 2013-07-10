@@ -107,7 +107,7 @@ class solr::tomcat6(
     require => [
                 Exec["cp /opt/solr/dist/solr-4.3.0.war /etc/solr/solr.war"],
                 File["/etc/init.d/tomcat6-solr"],
-                File["${tomcat6_home}/tomcat6/conf/Catalina"]
+                File["${tomcat6_home}/tomcat6/bin/setenv.sh"]
                ]
   }
 
