@@ -6,11 +6,12 @@ Puppet module for installing solr with a stand alone jetty server.  The server w
 This install has been tested on:
 
 * Ubuntu 12.04
+* RHEL 6.4
 
 Using this manifest
 -----------
 
-To include solr in your manifests.
+To download a copy of solr into /opt/solr.
 
 1. Check out this repository in your modules directory
 2. Add the following to your base manifest (Note that including an appropriate JDK is left to you):
@@ -20,6 +21,27 @@ package { 'default-jdk': }
 
 include solr
 ```
+
+
+You can also install a tomcat server to host solr.  If so you don't need
+to include, just add the module to your modules path and include this in
+your manifest.  This example sets up a tomcat server and provides a
+zookeeper host to connect in order to run solrCloud.
+
+```pp
+
+package { 'default-jdk': }
+
+class { "solr::tomcat6":
+  zookeeper_hosts => "ec2-72-44-55-216.compute-1.amazonaws.com:2181/cld2", 
+  cloud_shards => 1
+}
+```
+
+For more tomcat configuration options see the tomcat6.pp file in
+manifests.
+
+
 
 Working with Solr Cloud
 -----------------------
