@@ -7,7 +7,7 @@
 #
 # $tomcat6_home:: where to install tomcat. Default is /opt
 #
-# $exec_path:: path used to find execs required for installing tomcat. 
+# $exec_path:: path used to find execs required for installing tomcat
 #   Default is '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
 #
 # $tomcat6_version:: specific version of tomcat 6 to install. Default is
@@ -60,7 +60,7 @@ class solr::tomcat6(
     owner => solr,
     recurse => true,
     ensure => directory
-  } -> 
+  } ->
 
   file { "${tomcat6_home}/tomcat6/bin/setenv.sh":
     ensure => present,
@@ -77,7 +77,7 @@ class solr::tomcat6(
     ensure => directory,
     owner  => solr
   }
-  
+
   file { "${tomcat6_home}/tomcat6/conf/Catalina/localhost/solr.xml":
     ensure => present,
     owner  => solr,
@@ -95,7 +95,7 @@ class solr::tomcat6(
   exec { "cp /opt/solr/example/lib/ext/* ${tomcat6_home}/tomcat6/lib/":
     path => "/bin",
     creates => "${tomcat6_home}/tomcat6/lib/log4j-1.2.16.jar",
-    require => [ Class['solr'], File["${tomcat6_home}/tomcat6"]]
+    require => [ Class['solr::core'], File["${tomcat6_home}/tomcat6"]]
   }
 
   # stage the solr war file for tomcat

@@ -1,6 +1,6 @@
 # = Class: solr
 #
-# This class can be used to install solr with the default server and settings
+# This class can be used to install solr with the default server and settings.
 #
 # == Requires:
 #
@@ -9,7 +9,6 @@
 # == Sample Usage:
 #
 # include "solr"
-class solr (
-) {
+class solr () {
   include solr::jetty
 }

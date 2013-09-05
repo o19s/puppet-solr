@@ -35,7 +35,7 @@ class solr::core(
     creates => "${solr_home}/solr-${solr_version}",
   } ->
 
-  user { "solr": 
+  user { "solr":
     ensure => present
   } ->
 
@@ -75,7 +75,7 @@ class solr::core(
   file { "/var/lib/solr":
     ensure => directory,
     owner  => solr,
-  } -> 
+  } ->
 
   file { "/var/lib/solr/collection1":
     ensure => directory,
