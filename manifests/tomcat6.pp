@@ -27,10 +27,14 @@ class solr::tomcat6(
   $basedir = "/opt/tomcat6",
   $zookeeper_hosts = undef,
   $cloud_shards = undef,
+  $solr_version = "4.4.0",
   $tomcat6_user = "solr"
 ){
 
- class { "solr":}
+  class { "solr::core":
+    solr_version => $solr_version,
+    exec_path    => $exec_path
+  }
 
   Exec {
     path => $exec_path
