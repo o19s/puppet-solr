@@ -1,8 +1,5 @@
 <% if @zookeeper_hosts %>
 export JAVA_OPTS="$JAVA_OPTS -DzkHost=<%= @zookeeper_hosts %>"
-<% end -%>
-<% if @cloud_shards %>
-export JAVA_OPTS="$JAVA_OPTS -DnumShards=<%= @cloud_shards %>"
 export JAVA_OPTS="$JAVA_OPTS -Dcollection.configName=collection1 "
 <% end -%>
 

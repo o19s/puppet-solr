@@ -11,7 +11,8 @@ This install has been tested on:
 Using this manifest
 -----------
 
-To download a copy of solr into /opt/solr.
+To download a copy of solr into /opt/solr and start a dedicated jetty
+server for solr.
 
 1. Check out this repository in your modules directory
 2. Add the following to your base manifest (Note that including an appropriate JDK is left to you):
@@ -45,11 +46,12 @@ manifests.
 
 Working with Solr Cloud
 -----------------------
+Either solr::jetty or solr:tomcat6 can be used to host solrCloud.
 
 ```pp
 package { 'default-jdk' }
 
-class {'solr':
+class {'solr::jetty':
   number_of_cloud_shards => 2,
   zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
 }

@@ -14,7 +14,6 @@
 class solr::jetty(
   $solr_version = '4.4.0',
   $solr_home = '/opt',
-  $number_of_cloud_shards = 0,
   $zookeeper_hosts = "",
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
 ){
@@ -37,7 +36,7 @@ class solr::jetty(
   } ->
 
   service {"solr":
-    enable  => false,
+    ensure  => running,
     require => Class["solr::core"]
   }
 
