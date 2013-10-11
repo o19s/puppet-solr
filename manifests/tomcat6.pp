@@ -26,7 +26,7 @@ class solr::tomcat6(
   $java_home = '/usr/lib/jvm/default-java',
   $basedir = "/opt/tomcat6",
   $zookeeper_hosts = undef,
-  $solr_version = "4.4.0",
+  $solr_version = "4.5.0",
   $tomcat6_user = "solr"
 ){
 

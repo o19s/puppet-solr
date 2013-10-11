@@ -12,7 +12,7 @@
 #
 #
 class solr::jetty(
-  $solr_version = '4.4.0',
+  $solr_version = '4.5.0',
   $solr_home = '/opt',
   $zookeeper_hosts = "",
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
