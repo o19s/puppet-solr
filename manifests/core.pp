@@ -23,14 +23,14 @@
 #   }
 #
 class solr::core(
-  $solr_version = '4.4.0',
+  $solr_version = '4.5.0',
   $solr_home = '/opt',
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin'
 ) {
 
   # using the 'creates' option here against the finished product so we only download this once
   exec { "wget solr":
-    command => "wget --output-document=/tmp/solr-${solr_version}.tgz http://apache.petsads.us/lucene/solr/${solr_version}/solr-${solr_version}.tgz",
+    command => "wget --output-document=/tmp/solr-${solr_version}.tgz http://www.us.apache.org/lucene/solr/${solr_version}/solr-${solr_version}.tgz",
     path    => $exec_path,
     creates => "${solr_home}/solr-${solr_version}",
   } ->
