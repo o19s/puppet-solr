@@ -30,7 +30,7 @@ class solr::core(
 
   # using the 'creates' option here against the finished product so we only download this once
   exec { "wget solr":
-    command => "wget --output-document=/tmp/solr-${solr_version}.tgz http://www.us.apache.org/lucene/solr/${solr_version}/solr-${solr_version}.tgz",
+    command => "wget --output-document=/tmp/solr-${solr_version}.tgz http://www.us.apache.org/dist/lucene/solr/${solr_version}/solr-${solr_version}.tgz",
     path    => $exec_path,
     creates => "${solr_home}/solr-${solr_version}",
   } ->
