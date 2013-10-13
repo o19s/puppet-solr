@@ -8,13 +8,10 @@
 #
 # $solr_home:: where to place solr
 #
-# $exec_path:: the path to use when executing commands on the
-#             local system
-#
 #
 # == Requires:
 #
-# curl
+#   wget
 #
 # == Sample Usage:
 #
@@ -25,11 +22,14 @@
 class solr::core(
   $solr_version = $solr::params::solr_version,
   $solr_home = $solr::params::solr_home,
+  $apache_mirror = $solr::params::apache_mirror,
 ) inherits solr::params {
 
   # using the 'creates' option here against the finished product so we only download this once
+
+  $solr_tgz_url = "http://${apache_mirror}/lucene/solr/${solr_version}/solr-${solr_version}.tgz"
   exec { "wget solr":
-    command => "wget --output-document=/tmp/solr-${solr_version}.tgz http://apache.petsads.us/lucene/solr/${solr_version}/solr-${solr_version}.tgz",
+    command => "wget --output-document=/tmp/solr-${solr_version}.tgz ${solr_tgz_url}",
     creates => "${solr_home}/solr-${solr_version}",
   } ->
 
