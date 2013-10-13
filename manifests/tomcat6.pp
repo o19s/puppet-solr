@@ -23,17 +23,14 @@ class solr::tomcat6(
   $tomcat6_home = '/opt',
   $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin',
   $tomcat6_version = "6.0.37",
-  $java_home = '/usr/lib/jvm/default-java',
+  $java_home = $solr::params::java_home,
   $basedir = "/opt/tomcat6",
-  $zookeeper_hosts = undef,
-  $solr_version = "4.4.0",
+  $zookeeper_hosts = $solr::params::zookeeper_hosts,
+  $solr_version = $solr::params::solr_version,
   $tomcat6_user = "solr"
-){
+) inherits solr::params {
 
-  class { "solr::core":
-    solr_version => $solr_version,
-    exec_path    => $exec_path
-  }
+  class { "solr::core":}
 
   Exec {
     path => $exec_path
