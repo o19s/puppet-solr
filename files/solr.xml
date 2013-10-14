@@ -4,6 +4,5 @@
     hostPort="${jetty.port:8983}"
     hostContext="${hostContext:solr}" 
     zkClientTimeout="${zkClientTimeout:15000}">
- <core name="statedecoded" instanceDir="statedecoded" />
  </cores>
 </solr>

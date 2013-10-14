@@ -15,9 +15,11 @@ class solr::jetty(
   $solr_version = $solr::params::solr_version,
   $solr_home = $solr::params::solr_home,
   $zookeeper_hosts = $solr::params::zookeeper_hosts,
+  $core_name = $solr::params::core_name,
 ) inherits solr::params {
 
-  class { 'solr::core': }
+  class { 'solr::core':
+	    core_name => $core_name }
 
   if $operatingsystem == "Ubuntu" {
 	exec { "load init.d into upstart":
@@ -37,7 +39,7 @@ class solr::jetty(
   file { "/etc/default/solr-jetty":
     content => template("solr/solr-jetty.erb"),
     ensure => present,
-    owner  => solr,
+    owner  => 'root',
   } ->
 
   service {"solr":

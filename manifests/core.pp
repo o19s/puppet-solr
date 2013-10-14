@@ -23,6 +23,7 @@ class solr::core(
   $solr_version = $solr::params::solr_version,
   $solr_home = $solr::params::solr_home,
   $apache_mirror = $solr::params::apache_mirror,
+  $core_name = $solr::params::core_name,
 ) inherits solr::params {
 
   # using the 'creates' option here against the finished product so we only download this once
