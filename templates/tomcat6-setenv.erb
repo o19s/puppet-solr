@@ -3,4 +3,4 @@ export JAVA_OPTS="$JAVA_OPTS -DzkHost=<%= @zookeeper_hosts %>"
 export JAVA_OPTS="$JAVA_OPTS -Dcollection.configName=collection1 "
 <% end -%>
 
-export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/opt/solr-4.3.0/example/solr/collection1 "
+export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/opt/<%= @solr_war_file %>/example/solr/collection1 "
