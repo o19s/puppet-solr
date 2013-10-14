@@ -59,3 +59,13 @@ class {'solr::jetty':
   zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
 }
 ```
+
+TODO
+----
+
+- Debug problems with tomcat and solr
+    - I can get tomcat working, solr ontop of it is having a bad day
+- Write some damn testcases damnit
+    - just basic things that look for service availablity....
+- Finish updating README
+- Get this merged into home base!
