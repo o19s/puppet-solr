@@ -67,5 +67,6 @@ TODO
     - I can get tomcat working, solr ontop of it is having a bad day
 - Write some damn testcases damnit
     - just basic things that look for service availablity....
+- remove ugly line spacing that is sure to upset matt
 - Finish updating README
 - Get this merged into home base!
