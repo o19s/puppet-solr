@@ -22,20 +22,22 @@ class solr::jetty(
 	    core_name => $core_name }
 
   if $operatingsystem == "Ubuntu" {
-	exec { "load init.d into upstart":
-	  command => "update-rc.d solr defaults",
-          user    => "root",
-	  onlyif => "test 7 != `ls -al /etc/rc*.d | grep solr | wc | awk '{print \$1}'`" ,
-	  require => [File["/etc/init.d/solr"], Class['solr::core']]
-	  # checks if solr service is enabled
-	}	
+      exec { "load init.d into upstart":
+        command => "update-rc.d solr defaults",
+        user    => "root",
+        onlyif  => "test 7 != `ls -al /etc/rc*.d | grep solr | wc | awk '{print \$1}'`" ,
+        require => [File["/etc/init.d/solr"], Class['solr::core']]
+        # checks if solr service is enabled
+      }  
   }
+
   file { "/etc/init.d/solr":
     ensure => "present",
     mode   => '0755',
     source => "puppet:///modules/solr/solr",
     owner  => 'root',
   } ->
+
   file { "/etc/default/solr-jetty":
     content => template("solr/solr-jetty.erb"),
     ensure => present,
