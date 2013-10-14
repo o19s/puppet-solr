@@ -20,24 +20,20 @@
 # $tomcat6_user:: default is solr.
 #
 class solr::tomcat6(
-  $tomcat6_home = '/opt',
-  $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin',
   $tomcat6_version = "6.0.37",
-  $java_home = $solr::params::java_home,
-  $basedir = "/opt/tomcat6",
-  $zookeeper_hosts = $solr::params::zookeeper_hosts,
-  $solr_version = $solr::params::solr_version,
   $tomcat6_user = "solr"
+  $tomcat6_home = '/opt',
+  $basedir = "/opt/tomcat6",
+  $solr_version = $solr::params::solr_version,
+  $zookeeper_hosts = $solr::params::zookeeper_hosts,
+  $java_home = $solr::params::java_home,
+  $exec_path = $solr::params::exec_path.
 ) inherits solr::params {
 
   class { "solr::core":}
 
-  Exec {
-    path => $exec_path
-  }
-
   exec { "wget tomcat":
-    command => "wget --output-document=/tmp/apache-tomcat-${tomcat6_version}.tgz http://apache.petsads.us/tomcat/tomcat-6/v${tomcat6_version}/bin/apache-tomcat-${tomcat6_version}.tar.gz",
+    command => "wget --output-document=/tmp/apache-tomcat-${tomcat6_version}.tgz http://${apache_mirror}/tomcat/tomcat-6/v${tomcat6_version}/bin/apache-tomcat-${tomcat6_version}.tar.gz",
     creates => "${tomcat6_home}/tomcat-${tomcat6_version}"
   } ->
 
