@@ -40,15 +40,18 @@ class solr::core(
 
   exec { "untar solr":
     command => "tar -xf /tmp/solr-${solr_version}.tgz -C ${solr_home}",
-    creates => "${solr_home}/solr-${solr_version}",
+    creates => "${solr_home}/solr`-${solr_version}",
   } ->
 
-  file { "${solr_home}/solr":
+  file { "${solr_home}/current":
     ensure => link,
-    target => "${solr_home}/solr-${solr_version}",
+    target => "${solr_home}-${solr_version}",
     owner  => solr,
-  } ->
+  }
 
+  # defaults if solr_conf is not provided
+  # data will go to /var/lib/solr
+  # conf will go to /etc/solr
   file { "/etc/solr":
     ensure => directory,
     owner  => solr,

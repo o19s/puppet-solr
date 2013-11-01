@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
       },
       {
         name: "cent64",
-        url: "https://github.com/2creatives/vagrant-centos/releases/download/v0.1.0/centos64-x86_64-20131030.box",
+        url: "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box",
         port: 8984
       }
 
