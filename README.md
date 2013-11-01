@@ -15,13 +15,18 @@ To download a copy of solr into /opt/solr and start a dedicated jetty
 server for solr.
 
 1. Check out this repository in your modules directory
-2. Add the following to your base manifest (Note that including an appropriate JDK is left to you):
+2. Add the following to your base manifest (Note that picking the appropriate JDK is left to you):
 
 ```pp
-package { 'default-jdk': }
+package { 'default-jdk': 
+           ensure => 'installed',
+           before => Class['Solr']
+           } 
 
 include solr
 ```
+3. To see your server running visit http://localhost:8983/solr/#
+4. For a slightly more full featured example manifest see example.pp
 
 
 You can also install a tomcat server to host solr.  If so you don't need
@@ -35,7 +40,6 @@ package { 'default-jdk': }
 
 class { "solr::tomcat6":
   zookeeper_hosts => "ec2-72-44-55-216.compute-1.amazonaws.com:2181/cld2", 
-  cloud_shards => 1
 }
 ```
 
@@ -52,7 +56,16 @@ Either solr::jetty or solr:tomcat6 can be used to host solrCloud.
 package { 'default-jdk' }
 
 class {'solr::jetty':
-  number_of_cloud_shards => 2,
   zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
 }
 ```
+
+TODO
+----
+
+- Debug problems with tomcat and solr
+    - I can get tomcat working, solr ontop of it is having a bad day
+- Write some damn testcases damnit
+    - just basic things that look for service availablity....
+- Finish updating README
+- Get this merged into home base!

@@ -20,27 +20,23 @@
 # $tomcat6_user:: default is solr.
 #
 class solr::tomcat6(
-  $tomcat6_home = '/opt',
-  $exec_path = '/usr/bin:/usr/sbin:/bin:/usr/local/bin:/opt/local/bin',
   $tomcat6_version = "6.0.37",
-  $java_home = '/usr/lib/jvm/default-java',
+  $tomcat6_user = "solr",
+  $tomcat6_home = '/opt',
   $basedir = "/opt/tomcat6",
-  $zookeeper_hosts = undef,
-  $solr_version = "4.5.0",
-  $tomcat6_user = "solr"
-){
+  $solr_version = $solr::params::solr_version,
+  $zookeeper_hosts = $solr::params::zookeeper_hosts,
+  $java_home = $solr::params::java_home,
+  $exec_path = $solr::params::exec_path,
+) inherits solr::params {
 
-  class { "solr::core":
-    solr_version => $solr_version,
-    exec_path    => $exec_path
-  }
+  class { "solr::core":}
 
-  Exec {
-    path => $exec_path
-  }
+  # we need this in the tomcat6-setenv template and when we move the war file
+  $solr_war_file = "solr-${solr_version}.war"
 
   exec { "wget tomcat":
-    command => "wget --output-document=/tmp/apache-tomcat-${tomcat6_version}.tgz http://apache.petsads.us/tomcat/tomcat-6/v${tomcat6_version}/bin/apache-tomcat-${tomcat6_version}.tar.gz",
+    command => "wget --output-document=/tmp/apache-tomcat-${tomcat6_version}.tgz http://${apache_mirror}/tomcat/tomcat-6/v${tomcat6_version}/bin/apache-tomcat-${tomcat6_version}.tar.gz",
     creates => "${tomcat6_home}/tomcat-${tomcat6_version}"
   } ->
 
@@ -98,7 +94,7 @@ class solr::tomcat6(
   }
 
   # stage the solr war file for tomcat
-  exec { "cp /opt/solr/dist/solr-4.3.0.war /etc/solr/solr.war":
+  exec { "cp /opt/solr/dist/${solr_war_file} /etc/solr/solr.war":
     path => "/bin",
     creates => "/etc/solr/solr.war",
     require => Exec["cp /opt/solr/example/lib/ext/* ${tomcat6_home}/tomcat6/lib/"],
@@ -108,7 +104,7 @@ class solr::tomcat6(
   service { "tomcat6-solr":
     ensure  => running,
     require => [
-                Exec["cp /opt/solr/dist/solr-4.3.0.war /etc/solr/solr.war"],
+                Exec["cp /opt/solr/dist/${solr_war_file} /etc/solr/solr.war"],
                 File["/etc/init.d/tomcat6-solr"],
                 File["${tomcat6_home}/tomcat6/bin/setenv.sh"]
                ]

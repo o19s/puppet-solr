@@ -2,8 +2,8 @@ JAVA_HOME=/usr/java/default # Path to Java
 NO_START=0 # Start on boot
 JETTY_HOST=0.0.0.0 # Listen to all hosts
 JETTY_USER=solr # Run as this user
-JETTY_HOME=/opt/solr/example
-SOLR_HOME=/etc/solr
+JETTY_HOME=<%= @jetty_home %>/example
+SOLR_HOME=<%= @solr_home %>
 <% if @zookeeper_hosts %>
 ZOOKEEPER_HOSTS=<%= @zookeeper_hosts %>
 <% end -%>

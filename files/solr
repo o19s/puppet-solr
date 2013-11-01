@@ -2,12 +2,15 @@
 #
 # Startup script for solr using jetty under *nix systems (it works under NT/cygwin too).
 
-# To get the service to restart correctly on reboot, uncomment below (3 lines):
-# ========================
-# chkconfig: 3 99 99
-# description: Jetty 7 webserver
-# processname: jetty
-# ========================
+### BEGIN INIT INFO
+# Provides:          solr
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts the jetty daemon at boot
+# Description:       The service script for a solr-jetty instance
+### END INIT INFO
 
 # Configuration files
 #
