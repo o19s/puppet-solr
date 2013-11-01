@@ -11,4 +11,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/etc/puppet/modules/solr"
 
+  config.vm.provision :puppet do |puppet|
+     puppet.manifests_path  = "."
+     puppet.manifest_file  = "example.pp"
+     puppet.options = ['--verbose']
+  end
+
 end
