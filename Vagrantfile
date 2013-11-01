@@ -3,18 +3,35 @@
 
 Vagrant.configure("2") do |config|
 
-  # I use precise64 sorry!
-  config.vm.box = "precise64"
-  config.vm.network :forwarded_port, guest: 8983, host: 8983
-  config.vm.network :forwarded_port, guest: 2181, host: 2181
-  config.vm.network :forwarded_port, guest: 8080, host: 8080
+  ["tomcat6", "jetty"].each do |puppet_base|
+    [
+      {
+         name: "precise64",
+         url: "http://files.vagrantup.com/precise64.box",
+         port: 8983
+      },
+      {
+        name: "cent64",
+        url: "https://github.com/2creatives/vagrant-centos/releases/download/v0.1.0/centos64-x86_64-20131030.box",
+        port: 8984
+      }
+
+    ].each do |vm_info|
+      config.vm.define "#{vm_info[:name]}-#{puppet_base}" do |custom|
+        custom.vm.network :forwarded_port, guest: 8983, host: vm_info[:port]
+        custom.vm.box = vm_info[:name]
+        custom.vm.box_url = vm_info[:url]
+        custom.vm.provision :puppet do |puppet|
+          puppet.manifests_path  = "."
+          puppet.manifest_file  = "#{puppet_base}.pp"
+          puppet.options = ['--verbose']
+        end
+      end
+
+    end
+  end
 
   config.vm.synced_folder ".", "/etc/puppet/modules/solr"
 
-  config.vm.provision :puppet do |puppet|
-     puppet.manifests_path  = "."
-     puppet.manifest_file  = "example.pp"
-     puppet.options = ['--verbose']
-  end
 
 end
