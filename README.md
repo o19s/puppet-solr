@@ -12,7 +12,7 @@ Using this manifest
 -----------
 
 To download a copy of solr into /opt/solr and start a dedicated jetty
-server for solr.
+server for solr:
 
 1. Check out this repository in your modules directory
 2. Add the following to your base manifest (Note that picking the appropriate JDK is left to you):
@@ -56,6 +56,7 @@ Either solr::jetty or solr:tomcat6 can be used to host solrCloud.
 package { 'default-jdk' }
 
 class {'solr::jetty':
+  solr_home              => "/var/www/mysite/solr_home"
   zookeeper_hosts        => ["example.com:2181", "anotherserver.org:2181/alternate_root"]
 }
 ```
@@ -68,4 +69,3 @@ TODO
 - Write some damn testcases damnit
     - just basic things that look for service availablity....
 - Finish updating README
-- Get this merged into home base!
