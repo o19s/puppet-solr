@@ -37,7 +37,12 @@ class solr::core(
   user { "solr":
     ensure => present
   } ->
-
+ 
+  file { "/opt/solr":
+    ensure => directory,
+    owner  => solr,
+  } ->
+  
   exec { "untar solr":
     command => "tar -xf /tmp/solr-${solr_version}.tgz -C ${solr_home}",
     creates => "${solr_home}/solr-${solr_version}",
@@ -45,7 +50,7 @@ class solr::core(
 
   file { "${solr_home}/current":
     ensure => link,
-    target => "${solr_home}-${solr_version}",
+    target => "${solr_home}/solr-${solr_version}",
     owner  => solr,
   }
 
@@ -84,7 +89,7 @@ class solr::core(
   } ->
 
   exec { "copy core files to collection1":
-    command => "cp -rf /opt/solr/example/solr/collection1/* /etc/solr/collection1/",
+    command => "cp -rf /opt/solr/current/example/solr/collection1/* /etc/solr/collection1/",
     user    => solr,
     creates => "/etc/solr/collection1/conf/schema.xml"
   }
