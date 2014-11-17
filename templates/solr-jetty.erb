@@ -1,9 +1,3 @@
-JAVA_HOME=/usr/java/default # Path to Java
-NO_START=0 # Start on boot
-JETTY_HOST=0.0.0.0 # Listen to all hosts
-JETTY_USER=solr # Run as this user
-JETTY_HOME=<%= @solr_home %>/current/example
-SOLR_HOME=<%= @solr_conf %>
-<% if @zookeeper_hosts %>
-ZOOKEEPER_HOSTS=<%= @zookeeper_hosts %>
-<% end -%>
+JETTY_HOME=<%= @solr_install %>/current/example
+JETTY_PORT=8983
+JAVA_OPTIONS='-Dsolr.solr.home=<%= @solr_home %>'
