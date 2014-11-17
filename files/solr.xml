@@ -1,8 +1,0 @@
-<solr persistent="true" sharedLib="lib">
-  <cores adminPath="/admin/cores" 
-    host="${host:}" 
-    hostPort="${jetty.port:8983}"
-    hostContext="${hostContext:solr}" 
-    zkClientTimeout="${zkClientTimeout:15000}">
- </cores>
-</solr>

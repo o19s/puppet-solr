@@ -6,7 +6,7 @@
 #
 # $solr_version:: which version of solr to install
 #
-# $solr_home:: where to place solr
+# $solr_install:: where to place solr
 #
 #
 # == Requires:
@@ -21,77 +21,70 @@
 #
 class solr::core(
   $solr_version = $solr::params::solr_version,
-  $solr_home = $solr::params::solr_home,
+  $solr_install = $solr::params::solr_install,
   $apache_mirror = $solr::params::apache_mirror,
   $core_name = $solr::params::core_name,
 ) inherits solr::params {
 
-  # using the 'creates' option here against the finished product so we only download this once
+  $solr_tgz_url = "${apache_mirror}/lucene/solr/${solr_version}/solr-${solr_version}.tgz"
 
-  $solr_tgz_url = "http://${apache_mirror}/lucene/solr/${solr_version}/solr-${solr_version}.tgz"
+  notify { 'Tarball URI notice':
+    message => "We are going to fetch Apache Solr installation tarball from '${solr_tgz_url}'."
+  }
+
+  # Using the 'creates' option here against the finished product so we only download this once.
   exec { "wget solr":
     command => "wget --output-document=/tmp/solr-${solr_version}.tgz ${solr_tgz_url}",
-    creates => "${solr_home}/solr-${solr_version}",
+    creates => "${solr_install}/solr-${solr_version}",
   } ->
 
   user { "solr":
     ensure => present
   } ->
- 
-  file { "/opt/solr":
+
+  file { $solr_install:
     ensure => directory,
     owner  => solr,
   } ->
-  
+
   exec { "untar solr":
-    command => "tar -xf /tmp/solr-${solr_version}.tgz -C ${solr_home}",
-    creates => "${solr_home}/solr-${solr_version}",
+    command => "tar -xf /tmp/solr-${solr_version}.tgz -C ${solr_install}",
+    creates => "${solr_install}/solr-${solr_version}",
   } ->
 
-  file { "${solr_home}/current":
+  file { "${solr_install}/current":
     ensure => link,
-    target => "${solr_home}/solr-${solr_version}",
+    target => "${solr_install}/solr-${solr_version}",
     owner  => solr,
   }
 
-  # defaults if solr_conf is not provided
-  # data will go to /var/lib/solr
-  # conf will go to /etc/solr
-  file { "/etc/solr":
+  file { $solr_home:
     ensure => directory,
     owner  => solr,
   } ->
 
-  file { "/etc/solr/solr.xml":
-    ensure => present,
-    source => "puppet:///modules/solr/solr.xml",
-    owner  => solr,
-  } ->
-
-  file { "/etc/solr/collection1":
-    ensure => directory,
-    owner  => solr,
-  } ->
-
-  file { "/etc/solr/collection1/conf":
-    ensure => directory,
-    owner  => solr,
-  } ->
-
-  file { "/var/lib/solr":
-    ensure => directory,
-    owner  => solr,
-  } ->
-
-  file { "/var/lib/solr/collection1":
-    ensure => directory,
-    owner  => solr,
-  } ->
-
-  exec { "copy core files to collection1":
-    command => "cp -rf /opt/solr/current/example/solr/collection1/* /etc/solr/collection1/",
+  exec { 'Copy solr.xml':
+    command => "cp -f ${solr_install}/current/example/solr/solr.xml ${solr_home}/solr.xml",
     user    => solr,
-    creates => "/etc/solr/collection1/conf/schema.xml"
-  }
-}
+    creates => "${solr_home}/solr.xml"
+  } ->
 
+  # Creating new core from example.
+  file { "${solr_home}/${core_name}":
+    ensure => directory,
+    owner  => solr,
+  } ->
+
+  exec { "Copy core files to ${core_name}":
+    command => "cp -rf ${solr_install}/current/example/solr/collection1/* ${solr_home}/${core_name}/",
+    user    => solr,
+    creates => "${solr_home}/${core_name}/conf/schema.xml"
+  } ->
+
+  file { "$solr_home/${core_name}/core.properties":
+    ensure => file,
+    owner  => solr,
+    content => "name=${core_name}",
+  }
+
+}
