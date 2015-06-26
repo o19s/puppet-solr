@@ -356,7 +356,7 @@ fi
 #####################################################
 if [ "$NUM_SHARDS" ]
 then
-  JAVA_OPTIONS+=("-DnumShards=$SOLR_PORT")
+  JAVA_OPTIONS+=("-DnumShards=$NUM_SHARDS")
 fi
 
 #####################################################
